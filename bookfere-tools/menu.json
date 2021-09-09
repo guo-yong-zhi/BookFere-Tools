@@ -2,7 +2,7 @@
     "items": [
         {
         "name": "BookFere Tools",
-        "priority": 0,
+        "priority": 1,
         "items": [
             {
                 "name": "SDR Cleaner",
@@ -52,6 +52,14 @@
                         "checked": false,
                         "status": false,
                         "internal": "status Disable clean screenshot!"
+                    },
+                    {
+                        "name": "Show log",
+                        "priority": 6,
+                        "action": "../leafpad/bin/leafpad sdrCleaner_log.txt",
+                        "exitmenu": false,
+                        "checked": false,
+                        "status": false
                     }
                 ]
             },

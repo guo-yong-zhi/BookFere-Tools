@@ -4,8 +4,6 @@
 import os, sys, glob, shutil, datetime, re, codecs
 
 #fix ''ascii' codec can't decode byte 0xe8 in position ...'
-reload(sys)
-sys.setdefaultencoding('utf-8')
 
 # Define
 cleanshot = False
@@ -13,14 +11,13 @@ cleanlog  = True
 
 # Process
 def onProcess(kindlePath) :
-
     documentsPath = kindlePath + '/documents'
     checkDocumentsPathVer = os.path.exists(documentsPath)
-
-    logFile = documentsPath + '/sdrCleaner_log.txt'
-    if( os.path.exists( logFile ) ) :
-        os.remove( logFile )
-
+    logFile = 'sdrCleaner_log.txt'
+    now = datetime.datetime.now()
+    nowStyle = now.strftime('%Y-%m-%d %H:%M:%S')
+    new_log = open(logFile,'a')
+    new_log.write('清理时间 ' + nowStyle + '\n=================================\n')
     if checkDocumentsPathVer == False :
         sys.exit(0)
 
@@ -137,7 +134,7 @@ def onProcess(kindlePath) :
                                 shutil.rmtree(unsdr)
                                 if unsdr == 'sdrCleaner_log.sdr' :
                                     continue
-                            except OSError, (errno, strerror):
+                            except OSError:
                                 sdr_f_count += 1
                                 sdr_list_f += u'\u25cf ' + unsdr +'\n'
                             else:
@@ -196,7 +193,7 @@ def onProcess(kindlePath) :
                                 shutil.rmtree(undir)
                                 if undir == 'sdrCleaner_log.dir' :
                                     continue
-                            except OSError, (errno, strerror):
+                            except OSError:
                                 dir_f_count += 1
                                 dir_list_f += u'\u25cf ' + undir +'\n'
                             else:
@@ -214,10 +211,6 @@ def onProcess(kindlePath) :
         dir_f_count_str = str(dir_f_count)
         shot_count_str = str(shot_count)
 
-        now = datetime.datetime.now()
-        nowStyle = now.strftime('%Y-%m-%d %H:%M:%S')
-        new_log = open(logFile,'w')
-        new_log.write('清理时间 ' + nowStyle + '\n=================================\n')
         if sdr_list_s :
             new_log.write('共删除成功 ' + sdr_s_count_str +' 个无用 SDR 文件夹：\n---------------------------------\n')
             new_log.write(sdr_list_s)
@@ -241,7 +234,7 @@ def onProcess(kindlePath) :
             new_log.write('共删除成功 ' + shot_count_str +' 个截图：\n---------------------------------\n')
             new_log.write(scs_list)
             new_log.write('=================================\n')
-        new_log.write('Kindle 伴侣 - 为静心阅读而生\nhttp://kindlefere.com')
+        # new_log.write('Kindle 伴侣 - 为静心阅读而生\nhttp://kindlefere.com')
         new_log.close()
 
 # Execute
